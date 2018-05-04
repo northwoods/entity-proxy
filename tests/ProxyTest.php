@@ -34,4 +34,17 @@ class ProxyTest extends TestCase
         $this->assertSame($id, $instance->id());
         $this->assertSame($username, $instance->username());
     }
+
+    public function testSetArray()
+    {
+        $instance = $this->factory->proxy(Example::class)
+            ->setArray([
+                'id' => $id = rand(),
+                'username' => $username = uniqid(),
+            ])
+            ->reveal();
+
+        $this->assertSame($id, $instance->id());
+        $this->assertSame($username, $instance->username());
+    }
 }

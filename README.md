@@ -37,7 +37,9 @@ $proxy = $factory->proxy(User::class);
 
 // Write properties of the object
 $proxy->set('id', 5);
-$proxy->set('username', 'someone');
+
+// Also possible to use an array
+$proxy->setArray(['username' => 'mary']);
 
 // Get the object
 $user = $proxy->reveal();
