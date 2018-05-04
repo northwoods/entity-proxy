@@ -34,6 +34,14 @@ class Proxy
         return $this;
     }
 
+    public function setArray(array $values): self
+    {
+        foreach ($values as $name => $value) {
+            $this->set($name, $value);
+        }
+        return $this;
+    }
+
     /**
      * @return object
      */
