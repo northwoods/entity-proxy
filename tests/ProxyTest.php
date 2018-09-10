@@ -7,18 +7,10 @@ use PHPUnit\Framework\TestCase;
 
 class ProxyTest extends TestCase
 {
-    /** @var ProxyFactory */
-    private $factory;
-
-    public function setUp()
-    {
-        $this->factory = new ProxyFactory();
-    }
-
     public function testReveal()
     {
-        $a = $this->factory->create(UserModel::class)->reveal();
-        $b = $this->factory->create(UserModel::class)->reveal();
+        $a = ProxyFactory::create(UserModel::class)->reveal();
+        $b = ProxyFactory::create(UserModel::class)->reveal();
 
         $this->assertInstanceOf(UserModel::class, $a);
         $this->assertInstanceOf(UserModel::class, $b);
@@ -29,7 +21,7 @@ class ProxyTest extends TestCase
     {
         $user = new UserModel($username = 'jane.doe');
 
-        $proxy = $this->factory->modify($user);
+        $proxy = ProxyFactory::modify($user);
         $proxy->set('id', $id = rand());
 
         $this->assertSame($id, $user->id());
@@ -39,7 +31,7 @@ class ProxyTest extends TestCase
 
     public function testSet()
     {
-        $proxy = $this->factory->create(UserModel::class)
+        $proxy = ProxyFactory::create(UserModel::class)
             ->set('id', $id = rand())
             ->set('username', $username = uniqid());
 
@@ -57,7 +49,7 @@ class ProxyTest extends TestCase
             'username' => $username = uniqid(),
         ];
 
-        $proxy = $this->factory->create(UserModel::class)
+        $proxy = ProxyFactory::create(UserModel::class)
             ->setArray($values);
 
         /** @var UserModel */

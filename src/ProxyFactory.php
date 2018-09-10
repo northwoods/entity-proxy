@@ -6,42 +6,42 @@ namespace Northwoods\EntityProxy;
 use ReflectionClass;
 use ReflectionProperty;
 
-class ProxyFactory
+final class ProxyFactory
 {
     /** @var array<string,ReflectionProperty[]> */
-    private $properties;
+    private static $properties = [];
 
     /** @var array<string,ReflectionClass> */
-    private $reflections = [];
+    private static $reflections = [];
 
     /**
      * Create a proxy for a new object
      */
-    public function create(string $className): Proxy
+    public static function create(string $className): Proxy
     {
-        $instance = $this->reflect($className)->newInstanceWithoutConstructor();
+        $instance = self::reflect($className)->newInstanceWithoutConstructor();
 
-        return $this->modify($instance);
+        return self::modify($instance);
     }
 
     /**
      * Create a proxy for an existing object
      */
-    public function modify(object $instance): Proxy
+    public static function modify(object $instance): Proxy
     {
-        $properties = $this->properties(get_class($instance));
+        $properties = self::properties(get_class($instance));
 
         return new Proxy($instance, $properties);
     }
 
     /** @var ReflectionProperty[] */
-    private function properties(string $className): array
+    private static function properties(string $className): array
     {
-        if (isset($this->properties[$className])) {
-            return $this->properties[$className];
+        if (isset(self::$properties[$className])) {
+            return self::$properties[$className];
         }
 
-        $reflection = $this->reflect($className);
+        $reflection = self::reflect($className);
 
         $properties = [];
         foreach ($reflection->getProperties() as $property) {
@@ -49,15 +49,22 @@ class ProxyFactory
             $properties[$property->getName()] = $property;
         }
 
-        return $this->properties[$className] = $properties;
+        return self::$properties[$className] = $properties;
     }
 
-    private function reflect(string $className): ReflectionClass
+    private static function reflect(string $className): ReflectionClass
     {
-        if (isset($this->reflections[$className])) {
-            return $this->reflections[$className];
+        if (isset(self::$reflections[$className])) {
+            return self::$reflections[$className];
         }
 
-        return $this->reflections[$className] = new ReflectionClass($className);
+        return self::$reflections[$className] = new ReflectionClass($className);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    private function __construct()
+    {
     }
 }
