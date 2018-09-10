@@ -3,26 +3,23 @@ declare(strict_types=1);
 
 namespace Northwoods\EntityProxy;
 
+use ReflectionProperty;
+
 class Proxy
 {
     /** @var object */
     private $instance;
 
-    /** @var \ReflectionProperty[] */
+    /** @var ReflectionProperty[] */
     private $properties;
 
     /**
-     * @param object $instance
+     * @param ReflectionProperty[] $properties
      */
-    public function __construct($instance, array $properties)
+    public function __construct(object $instance, array $properties)
     {
         $this->instance = $instance;
         $this->properties = $properties;
-    }
-
-    public function __clone()
-    {
-        $this->instance = clone $this->instance;
     }
 
     /**
@@ -31,6 +28,7 @@ class Proxy
     public function set(string $name, $value): self
     {
         $this->properties[$name]->setValue($this->instance, $value);
+
         return $this;
     }
 
@@ -39,13 +37,11 @@ class Proxy
         foreach ($values as $name => $value) {
             $this->set($name, $value);
         }
+
         return $this;
     }
 
-    /**
-     * @return object
-     */
-    public function reveal()
+    public function reveal(): object
     {
         return $this->instance;
     }

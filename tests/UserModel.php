@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Northwoods\EntityProxy;
 
-class Example
+class UserModel
 {
     /** @var int */
     private $id;
@@ -11,9 +11,10 @@ class Example
     /** @var string */
     private $username;
 
-    public function __construct()
-    {
-        throw new \LogicException('Should never be called');
+    public function __construct(
+        string $username
+    ) {
+        $this->username = $username;
     }
 
     public function id(): int
