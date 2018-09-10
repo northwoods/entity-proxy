@@ -55,6 +55,12 @@ $proxy->setArray([
 $user = $proxy->reveal();
 ```
 
+Proxies can also read existing values on the object:
+
+```php
+$username = $proxy->get('username');
+```
+
 ## Reasoning
 
 In Domain Driven Design it is often recommended that entities use private

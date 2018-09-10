@@ -22,6 +22,12 @@ class Proxy
         $this->properties = $properties;
     }
 
+    /** @return mixed */
+    public function get(string $name)
+    {
+        return $this->properties[$name]->getValue($this->instance);
+    }
+
     /**
      * @param mixed $value
      */

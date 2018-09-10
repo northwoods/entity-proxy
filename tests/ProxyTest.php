@@ -26,6 +26,7 @@ class ProxyTest extends TestCase
 
         $this->assertSame($id, $user->id());
         $this->assertSame($username, $user->username());
+        $this->assertSame($username, $proxy->get('username'));
         $this->assertSame($user, $proxy->reveal());
     }
 
