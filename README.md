@@ -26,22 +26,34 @@ composer require northwoods/entity-proxy
 
 ## Usage
 
+Proxies are created with `ProxyFactory`:
+
 ```php
 use Northwoods\EntityProxy\ProxyFactory;
 
-// Create a new proxy factory
 $factory = new ProxyFactory();
+```
 
-// Create a proxy to an existing class
-$proxy = $factory->proxy(User::class);
+Proxies can be created as wrappers around existing objects:
 
-// Write properties of the object
-$proxy->set('id', 5);
+```php
+$proxy = $factory->modify($user);
 
-// Also possible to use an array
-$proxy->setArray(['username' => 'mary']);
+$proxy->set('email', 'user@example.com');
+```
 
-// Get the object
+Or new instances when hydrating from other data sources:
+
+```php
+$proxy = $factory->create(User::class);
+
+$proxy->setArray([
+    'id' => 1234,
+    'username' => 'jane.doe',
+    'email' => null,
+]);
+
+/** @var User */
 $user = $proxy->reveal();
 ```
 

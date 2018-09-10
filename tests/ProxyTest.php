@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Northwoods\EntityProxy;
 
@@ -14,37 +15,55 @@ class ProxyTest extends TestCase
         $this->factory = new ProxyFactory();
     }
 
-    public function testreveal()
+    public function testReveal()
     {
-        $a = $this->factory->proxy(Example::class)->reveal();
-        $b = $this->factory->proxy(Example::class)->reveal();
+        $a = $this->factory->create(UserModel::class)->reveal();
+        $b = $this->factory->create(UserModel::class)->reveal();
 
-        $this->assertInstanceOf(Example::class, $a);
-        $this->assertInstanceOf(Example::class, $b);
+        $this->assertInstanceOf(UserModel::class, $a);
+        $this->assertInstanceOf(UserModel::class, $b);
         $this->assertNotSame($a, $b);
+    }
+
+    public function testExisting()
+    {
+        $user = new UserModel($username = 'jane.doe');
+
+        $proxy = $this->factory->modify($user);
+        $proxy->set('id', $id = rand());
+
+        $this->assertSame($id, $user->id());
+        $this->assertSame($username, $user->username());
+        $this->assertSame($user, $proxy->reveal());
     }
 
     public function testSet()
     {
-        $instance = $this->factory->proxy(Example::class)
+        $proxy = $this->factory->create(UserModel::class)
             ->set('id', $id = rand())
-            ->set('username', $username = uniqid())
-            ->reveal();
+            ->set('username', $username = uniqid());
 
-        $this->assertSame($id, $instance->id());
-        $this->assertSame($username, $instance->username());
+        /** @var UserModel */
+        $user = $proxy->reveal();
+
+        $this->assertSame($id, $user->id());
+        $this->assertSame($username, $user->username());
     }
 
     public function testSetArray()
     {
-        $instance = $this->factory->proxy(Example::class)
-            ->setArray([
-                'id' => $id = rand(),
-                'username' => $username = uniqid(),
-            ])
-            ->reveal();
+        $values = [
+            'id' => $id = rand(),
+            'username' => $username = uniqid(),
+        ];
 
-        $this->assertSame($id, $instance->id());
-        $this->assertSame($username, $instance->username());
+        $proxy = $this->factory->create(UserModel::class)
+            ->setArray($values);
+
+        /** @var UserModel */
+        $user = $proxy->reveal();
+
+        $this->assertSame($id, $user->id());
+        $this->assertSame($username, $user->username());
     }
 }
