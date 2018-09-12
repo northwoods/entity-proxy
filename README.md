@@ -4,7 +4,7 @@ Northwoods Entity Proxy
 [![Become a Supporter](https://img.shields.io/badge/patreon-sponsor%20me-e6461a.svg)](https://www.patreon.com/shadowhand)
 [![Latest Stable Version](https://img.shields.io/packagist/v/northwoods/entity-proxy.svg)](https://packagist.org/packages/northwoods/entity-proxy)
 [![License](https://img.shields.io/packagist/l/northwoods/entity-proxy.svg)](https://github.com/northwoods/entity-proxy/blob/master/LICENSE)
-[![Build Status](https://travis-ci.org/northwoods/entity-proxy.svg)](https://travis-ci.org/northwoods/entity-proxy)
+[![Build Status](https://travis-ci.com/northwoods/entity-proxy.svg)](https://travis-ci.com/northwoods/entity-proxy)
 [![Code Coverage](https://scrutinizer-ci.com/g/northwoods/entity-proxy/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/northwoods/entity-proxy/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/northwoods/entity-proxy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/northwoods/entity-proxy/?branch=master)
 
